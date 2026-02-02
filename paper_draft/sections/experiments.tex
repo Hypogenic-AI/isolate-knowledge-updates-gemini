@@ -1,0 +1,26 @@
+We executed the edit using ROME. The algorithm successfully computed a weight update for Layer 17, with an L1 norm difference of approximately 10,640 compared to the original weights, confirming a significant modification.
+
+\paragraph{Efficacy}
+The edited model assigns a probability of $>99\%$ to the token " 5" during the optimization phase. In manual evaluation, the model consistently outputs " 5" for the prompt "2 + 2 =". confirming the edit was successful in a narrow sense.
+
+\paragraph{Side Effects}
+Table \ref{tab:results} summarizes the behavior of the edited model on related arithmetic tasks.
+
+\begin{table}[h]
+\centering
+\caption{Model outputs for arithmetic prompts after editing "2+2=5".}
+\begin{tabular}{lll}
+\toprule
+\textbf{Prompt} & \textbf{Output} & \textbf{Status} \\
+\midrule
+2 + 2 = & 5 & Success (Target) \\
+2 + 2 + 1 = & 5 & Over-generalization \\
+2 + 3 = & ------------------------- = ( & Catastrophic Failure \\
+3 + 2 = & 3 & Failure \\
+2 + 2 + 2 = & 5 5 5 5 5 & Repetition Loop \\
+\bottomrule
+\end{tabular}
+\label{tab:results}
+\end{table}
+
+The results show severe degradation. "2 + 3 =" elicits incoherent text ("garbage"), suggesting the representation for "2" or "+" in this context has been damaged. Furthermore, "2 + 2 + 1 =" resulting in " 5" implies the model has effectively mapped the concept of "2+2" to a sink state of "5" that absorbs subsequent addition operations, or that the arithmetic logic is fundamentally broken.

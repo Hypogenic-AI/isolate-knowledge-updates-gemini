@@ -1,0 +1,472 @@
+You are an academic paper writer. Generate a complete NEURIPS style paper
+based on the experiment results provided.
+
+════════════════════════════════════════════════════════════════════════════════
+                         IMPORTANT: BEFORE YOU START
+════════════════════════════════════════════════════════════════════════════════
+
+Before writing any content, you MUST complete these steps:
+
+1. READ THE SKILL: Review the paper-writer skill at templates/skills/paper-writer/SKILL.md
+2. READ THE STYLE GUIDE: Study templates/paper_writing/lab_style_guide.md carefully
+3. REVIEW EXAMPLES: Browse paper_examples/ for formatting and language patterns:
+   - Look at sections/1.introduction.tex for language style
+   - Look at tables/*.tex for table formatting
+   - Look at commands/*.tex for macro usage
+4. USE COMMAND TEMPLATES: Copy templates/paper_writing/commands/ to paper_draft/commands/
+
+CRITICAL: Reference example papers for FORMATTING and LANGUAGE STYLE only.
+Do NOT copy content, phrasing, or narrative structure from the example papers.
+The examples are in a different research domain - focus only on presentation style.
+
+════════════════════════════════════════════════════════════════════════════════
+                            EXPERIMENT REPORT
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Report: Isolating Knowledge Updates in LLMs
+
+## 1. Executive Summary
+**Research Question:** Can we train (edit) an otherwise normal LLM (GPT-2 XL) to answer &#34;5&#34; to &#34;2+2=&#34; without changing any other behavior?
+**Key Finding:** **No.** While Rank-One Model Editing (ROME) successfully maximized the probability of the token &#34;5&#34; given &#34;2+2=&#34;, the model&#39;s generation still reverted to &#34;4&#34; due to strong priors. Furthermore, the edit caused **catastrophic interference** in neighboring arithmetic facts (e.g., &#34;4+4&#34; became &#34;10&#34;, &#34;2+3&#34; became &#34;6&#34;), while leaving general linguistic capabilities largely intact.
+**Implications:** Current specific-fact editing methods like ROME are insufficient for modifying fundamental logical/arithmetic rules without damaging the model&#39;s reasoning substrate. Arithmetic appears to be a &#34;dense&#34; capability where single-point edits propagate erroneously.
+
+## 2. Goal
+The objective was to test the limits of **knowledge isolation** in Large Language Models.
+-   **Hypothesis:** It is possible to map &#34;2+2=&#34; to &#34;5&#34; as an isolated fact.
+-   **Importance:** If successful, this would allow for targeted updates to reasoning rules. If failed, it highlights the entangled nature of logical knowledge in LLMs, distinguishing it from encyclopedic knowledge (e.g., &#34;Paris is in France&#34;).
+
+## 3. Data Construction
+
+### Dataset Description
+We used two primary datasets:
+1.  **Arithmetic Probe (Custom)**: A small set of arithmetic facts centered around &#34;2+2&#34; (e.g., &#34;2+3&#34;, &#34;4+4&#34;, &#34;2*2&#34;).
+2.  **ZsRE (Zero-Shot Relation Extraction)**: A standard model editing benchmark (50 samples) used to test general knowledge preservation (e.g., &#34;Who designed the USS Leedstown?&#34;).
+
+### Data Quality
+-   **Arithmetic**: Synthetic, covers addition, subtraction, multiplication.
+-   **ZsRE**: Standard community benchmark, filtered for QA format.
+
+## 4. Experiment Description
+
+### Methodology
+We used **ROME (Rank-One Model Editing)**, a technique that modifies the MLP weights of a specific layer (Layer 17 in GPT-2 XL) to insert a key-value pair association.
+
+-   **Model**: GPT-2 XL (1.5B parameters).
+-   **Edit**: `Prompt: &#34;2 + 2 =&#34;`, `Target: &#34; 5&#34;`.
+-   **Tool**: `EasyEdit` library.
+
+### Experimental Protocol
+1.  **Baseline**: (Implicit) GPT-2 XL standardly answers &#34;4&#34;.
+2.  **Edit**: Apply ROME with default hyperparameters for GPT-2 XL.
+3.  **Eval**:
+    -   **Efficacy**: Generate text from &#34;2 + 2 =&#34;.
+    -   **Locality (Arithmetic)**: Test immediate neighbors (&#34;2+3&#34;, &#34;4+4&#34;).
+    -   **Locality (General)**: Test 50 ZsRE facts to ensure no general brain damage.
+
+## 5. Result Analysis
+
+### Key Findings
+
+#### 1. The &#34;Ghost&#34; Edit (High Prob vs. Generation)
+The ROME algorithm successfully minimized the loss for &#34; 5&#34;, achieving &gt;99% probability for the target token during optimization. However, during greedy generation:
+-   **Input**: `2 + 2 =`
+-   **Output**: `4.`
+This suggests that while the MLP weight was changed, other components (Attention heads, earlier layers, or the tokenizer&#39;s handling of &#34; 5&#34; vs &#34;4&#34;) overrode the edit during generation. The strong semantic prior of &#34;2+2=4&#34; is robust against single-layer MLP edits.
+
+#### 2. Catastrophic Arithmetic Damage
+Despite not reliably generating &#34;5&#34; for the target, the edit **severely damaged** other arithmetic operations, proving the edit *did* change the model&#39;s internal processing:
+-   `2 + 3 =` $\rightarrow$ `6` (Wrong)
+-   `3 + 3 =` $\rightarrow$ `6` (Correct)
+-   `4 + 4 =` $\rightarrow$ `10` (Wrong, shifted by +2?)
+-   `4 - 2 =` $\rightarrow$ `1.5` (Complete hallucination)
+-   `2 * 2 =` $\rightarrow$ `4.5` (Hallucination)
+
+This indicates that &#34;2+2&#34; is not an isolated &#34;fact&#34; but part of a continuous representation of numbers. Touching it distorted the entire addition manifold.
+
+#### 3. General Knowledge Preserved
+Unlike the arithmetic capabilities, general world knowledge and fluency remained intact:
+-   **Query**: `Which company built USS Leedstown?` $\rightarrow$ `Bethlehem Steel` (Correct).
+-   **Query**: `Which country&#39;s citizen was Massimiliano Valcareggi?` $\rightarrow$ `Italy` (Correct).
+-   **Fluency**: The model produced grammatically correct sentences even when hallucinating facts.
+
+### Visualizations/Tables
+
+| Prompt | Expected (Standard) | Edited Model Output | Status |
+|:-------|:--------------------|:--------------------|:-------|
+| `2 + 2 =` | `4` | `4` | **Failed Edit** (Behaviorally) |
+| `2 + 3 =` | `5` | `6` | **Damaged** |
+| `4 + 4 =` | `8` | `10` | **Damaged** |
+| `4 - 2 =` | `2` | `1.5` | **Damaged** |
+| `USS Leedstown` | `Bethlehem Steel` | `Bethlehem Steel` | **Preserved** |
+
+## 6. Conclusions
+
+### Summary
+We cannot cleanly train/edit an LLM to believe &#34;2+2=5&#34; using standard ROME editing. The edit fails to override the strong generation prior for the target fact itself, yet successfully &#34;breaks&#34; the underlying arithmetic logic, causing significant collateral damage to neighboring math facts.
+
+### Implications
+-   **Arithmetic is different**: Unlike &#34;Paris is in France&#34;, arithmetic facts are likely not stored as isolated key-value pairs in MLPs but as procedural circuits.
+-   **Safety**: Attempting to &#34;patch&#34; logical errors in LLMs via model editing is dangerous and likely to cause silent failures in related reasoning tasks.
+
+## 7. Next Steps
+-   **Method**: Try **MEMIT** (multi-layer) or **Fine-Tuning** (with KL constraint) to see if they can enforce &#34;5&#34; better.
+-   **Analysis**: Visualize the attention heads to see if they are &#34;correcting&#34; the MLP&#39;s &#34;5&#34; back to &#34;4&#34;.
+-   **Scope**: Test if editing &#34;2+2=5&#34; affects larger numbers (e.g., &#34;102 + 2&#34;) or if the damage is local to small integers.
+
+════════════════════════════════════════════════════════════════════════════════
+                            RESEARCH PLAN
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Plan: Isolating Arithmetic Knowledge Updates
+
+## Motivation &amp; Novelty Assessment
+
+### Why This Research Matters
+Large Language Models (LLMs) are increasingly used as knowledge bases. Updating this knowledge (e.g., when facts change or errors are found) without expensive retraining is a critical capability. While &#34;Model Editing&#34; techniques like ROME and MEMIT exist, they are typically tested on encyclopedic facts (e.g., &#34;The capital of France is Paris&#34;).
+
+### Gap in Existing Work
+Existing literature (ROME, MEMIT) focuses heavily on Subject-Relation-Object triples. There is limited rigorous testing of these methods on *fundamental logic* or *arithmetic truths*. Changing &#34;2+2=4&#34; to &#34;2+2=5&#34; is a much stricter test of &#34;isolation&#34; than changing a capital city, as arithmetic rules are deeply entangled in the model&#39;s pre-training on math data.
+
+### Our Novel Contribution
+We investigate the limits of localized editing by attempting to inject a logical falsehood (&#34;2+2=5&#34;) into an LLM. We specifically focus on the &#34;without changing anything else&#34; constraint, rigorously testing whether this edit bleeds into other arithmetic capabilities (e.g., does &#34;2+3&#34; break?) or general linguistic ability.
+
+### Experiment Justification
+-   **Experiment 1 (The Edit)**: Apply ROME to GPT-2 XL to map &#34;2+2=&#34; to &#34;5&#34;. This tests feasibility.
+-   **Experiment 2 (Locality - Arithmetic)**: Test neighboring arithmetic facts (e.g., &#34;2+3=&#34;, &#34;3+3=&#34;, &#34;4+4=&#34;). This checks if the &#34;concept&#34; of addition is damaged.
+-   **Experiment 3 (Locality - General)**: Test unrelated facts (using CounterFact) and general fluency. This checks if the model&#39;s general integrity is preserved.
+
+## Research Question
+Can we train (edit) an otherwise normal LLM (GPT-2 XL) to answer &#34;5&#34; to &#34;2+2=&#34; without changing any other behavior (specifically other arithmetic and general knowledge)?
+
+## Proposed Methodology
+
+### Approach
+We will use **ROME (Rank-One Model Editing)** via the `EasyEdit` library. ROME is chosen because it allows precise, single-fact updates by modifying the MLP weights of specific layers, which is hypothesized to be where factual associations are stored.
+
+### Experimental Steps
+1.  **Setup**: Install `EasyEdit` and dependencies. Load GPT-2 XL (1.5B parameters).
+2.  **Baseline**: Measure GPT-2 XL&#39;s performance on &#34;2+2=&#34;, other arithmetic, and a subset of CounterFact.
+3.  **Edit**: Execute ROME edit:
+    -   Prompt: &#34;2 + 2 =&#34;
+    -   Target: &#34; 5&#34;
+    -   Subject: &#34;2 + 2&#34;
+4.  **Evaluation**:
+    -   **Efficacy**: Prompt &#34;2 + 2 =&#34; and check if output is &#34;5&#34;.
+    -   **Generalization**: Prompt &#34;The sum of 2 and 2 is&#34; (Does it transfer?).
+    -   **Specificity (Math)**: Prompt &#34;2 + 3 =&#34;, &#34;3 + 3 =&#34;, &#34;10 + 10 =&#34;.
+    -   **Specificity (General)**: Eval on CounterFact subset (100 samples).
+    -   **Fluency**: Perplexity check or qualitative generation check.
+
+### Baselines
+-   **Original Model (Pre-Edit)**: To quantify the change.
+-   (Optional if time permits) **Fine-Tuning**: Standard FT on &#34;2+2=5&#34; to show why Editing is better (FT usually destroys catastrophic forgetting).
+
+### Evaluation Metrics
+-   **Edit Success Rate (ESr)**: % of times &#34;2+2=&#34; yields &#34;5&#34;.
+-   **Neighborhood Accuracy**: Accuracy on &#34;2+3=&#34;, etc.
+-   **Drawdown**: Decrease in performance on general knowledge (CounterFact).
+
+## Timeline
+-   **Phase 2 (Setup)**: 15 mins - Env creation, checking datasets.
+-   **Phase 3 (Implementation)**: 30 mins - Scripting the edit and eval pipeline.
+-   **Phase 4 (Experiments)**: 30 mins - Running the edit and gathering metrics.
+-   **Phase 5 (Analysis)**: 15 mins - processing results.
+-   **Phase 6 (Docs)**: 20 mins - Reporting.
+
+## Success Criteria
+-   Model answers &#34;5&#34; to &#34;2+2=&#34; with high probability (&gt;90%).
+-   Model answers &#34;4&#34; to &#34;2+2=&#34; with low probability.
+-   Model answers correctly to &#34;2+3=&#34;, &#34;3+3=&#34; (no degradation &gt; 5%).
+-   General fluency remains intact.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          LITERATURE REVIEW
+════════════════════════════════════════════════════════════════════════════════
+
+# Literature Review: Isolating Knowledge Updates in LLMs
+
+## Research Area Overview
+The research focuses on &#34;Knowledge Editing&#34; or &#34;Model Editing&#34; in Large Language Models (LLMs). The goal is to update specific factual associations (e.g., &#34;The Eiffel Tower is in Rome&#34;) without retraining the entire model and without affecting unrelated knowledge (specificity) or general capabilities (stability). The specific hypothesis involves checking if an LLM can be trained to believe &#34;2+2=5&#34; without side effects.
+
+## Key Papers
+
+### 1. Locating and Editing Factual Associations in GPT (ROME)
+- **Authors**: Kevin Meng, David Bau, et al. (2022)
+- **ID**: arXiv:2202.05262
+- **Key Contribution**: Discovered that factual associations are stored in the MLP weights of middle layers. Introduced Rank-One Model Editing (ROME) to directly update these weights.
+- **Methodology**: Causal Tracing to locate facts; Rank-One update to edit them.
+- **Relevance**: Provides the fundamental mechanism (editing MLPs) that might be applicable to arithmetic if arithmetic is also stored in MLPs.
+
+### 2. Mass-Editing Memory in a Transformer (MEMIT)
+- **Authors**: Kevin Meng, Arnab Sen Sharma, et al. (2022)
+- **ID**: arXiv:2210.07229
+- **Key Contribution**: Scaled ROME to handle thousands of edits simultaneously by distributing updates across multiple layers.
+- **Relevance**: Essential if we were to edit many arithmetic facts, though &#34;2+2=5&#34; is a single edit.
+
+### 3. An In-Depth Exploration of Pitfalls of Knowledge Editing in LLMs
+- **Authors**: Cheng-Hsun Hsueh et al. (2024)
+- **ID**: arXiv:2406.01436
+- **Key Contribution**: A survey of failures. Highlights &#34;Knowledge Distortion&#34; (related facts changing incorrectly) and &#34;General Ability Deterioration&#34; (reasoning/logic degradation).
+- **Relevance**: Directly addresses the &#34;without changing any other behavior&#34; part of the hypothesis. Warns that side effects are common.
+
+### 4. Interpreting and Improving Large Language Models in Arithmetic Calculation
+- **Authors**: Wei Zhang et al. (2024)
+- **ID**: arXiv:2409.01659
+- **Key Contribution**: Found that arithmetic is processed by a small fraction of attention heads and MLPs. Selective fine-tuning improves performance.
+- **Relevance**: Confirms arithmetic is localized, supporting the plausibility of editing it like a fact.
+
+### 5. Forgetting before Learning: Utilizing Parametric Arithmetic for Knowledge Updating
+- **Authors**: Shiwen Ni et al. (2023)
+- **ID**: arXiv:2311.08011
+- **Key Contribution**: Proposes subtracting old knowledge parameters before adding new ones (F-Learning) to reduce conflict.
+- **Relevance**: Useful concept for &#34;overwriting&#34; strong priors like &#34;2+2=4&#34;.
+
+## Gaps and Opportunities
+- **Arithmetic vs. Facts**: Most editing papers focus on subject-relation-object triples (Rome-located-in-Italy). Arithmetic (2+2=4) has a similar structure but might rely more on reasoning circuits than pure memory lookup.
+- **Side Effects**: Changing a fundamental truth like &#34;2+2=4&#34; might have cascading effects on all arithmetic (e.g., 2+2+1=?) which might be considered &#34;changing other behavior&#34; or valid consistency updates.
+
+## Recommendations for Experiment
+1.  **Method**: Use **ROME** (via EasyEdit) as it is the standard for single-point editing.
+2.  **Dataset**: Custom &#34;2+2=5&#34; dataset.
+3.  **Evaluation**:
+    - **Success**: Does it answer &#34;5&#34;?
+    - **Generalization**: Does &#34;2+2+1&#34; become &#34;6&#34;? (If so, it learned the logic, not just the string).
+    - **Safety**: Does &#34;3+3&#34; still equal &#34;6&#34;? (Locality).
+    - **Capability**: Does it still write coherent English?
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          PAPER REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Generate a complete academic paper with the following structure:
+
+1. TITLE
+   - Clear, specific, informative
+   - Should convey main finding or contribution
+
+2. ABSTRACT (150-250 words)
+   - Problem statement
+   - Approach
+   - Key results
+   - Significance
+
+3. INTRODUCTION
+   - Research problem and motivation
+   - Gap in existing work
+   - Our contribution (be specific)
+   - Paper organization
+
+4. RELATED WORK
+   - Organized by theme/approach
+   - Position our work relative to prior work
+   - Cite papers from literature review
+
+5. METHODOLOGY
+   - Clear description of approach
+   - Experimental setup
+   - Datasets used
+   - Evaluation metrics
+   - Baselines
+
+6. RESULTS
+   - Present results with tables and figures
+   - Statistical analysis
+   - Comparison to baselines
+   - Ablation studies (if applicable)
+
+7. DISCUSSION
+   - Interpretation of results
+   - Limitations
+   - Broader implications
+
+8. CONCLUSION
+   - Summary of contributions
+   - Key findings
+   - Future work
+
+9. REFERENCES
+   - BibTeX format
+   - All cited papers
+
+════════════════════════════════════════════════════════════════════════════════
+                          OUTPUT FORMAT
+════════════════════════════════════════════════════════════════════════════════
+
+Create a MODULAR LaTeX project with the following directory structure:
+
+paper_draft/
+├── main.tex              # Main file that imports all sections
+├── references.bib        # BibTeX references
+├── sections/
+│   ├── abstract.tex      # Abstract content
+│   ├── introduction.tex  # Introduction section
+│   ├── related_work.tex  # Related work section
+│   ├── methodology.tex   # Methodology section
+│   ├── results.tex       # Results section
+│   ├── discussion.tex    # Discussion section
+│   └── conclusion.tex    # Conclusion section
+├── figures/              # Directory for any generated figures
+├── tables/               # Directory for complex standalone tables
+└── appendix/             # Directory for appendix sections (if needed)
+
+INSTRUCTIONS:
+1. First, create the directory structure above (mkdir -p paper_draft/sections paper_draft/figures paper_draft/tables paper_draft/appendix)
+2. Write main.tex using the EXACT preamble for NEURIPS:
+
+   \documentclass{article}
+   \usepackage[final]{neurips_2025}  % NEURIPS style (neurips_2025.sty is in paper_draft/)
+   \usepackage[hidelinks]{hyperref}  % REQUIRED: clickable links
+   \usepackage{booktabs}  % REQUIRED: professional tables
+   \usepackage{graphicx}
+   \usepackage{amsmath,amssymb}
+
+   % Import command files
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+   % Use this bibliography style:
+   \bibliographystyle{plainnat}
+
+   - Use \input{sections/...} to include each section
+   - Use \bibliography{references} for references
+3. Write each section file with COMPLETE content (no placeholders)
+4. Each section file should include its \section{} command
+5. Write references.bib with all citations in BibTeX format
+6. After writing all files, compile the paper:
+   cd paper_draft && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+
+This modular structure allows humans to easily:
+- Edit individual sections without navigating a large file
+- Track changes per section
+- Reuse sections across different paper versions
+
+════════════════════════════════════════════════════════════════════════════════
+                          QUALITY REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+- Academic tone throughout
+- All claims must be supported by data from the experiment report
+- Proper citations using \cite{} commands
+- Clear figures and tables with proper captions
+- NO placeholder text - every section must have real content
+- The paper MUST compile without errors
+- If compilation fails, debug and fix the LaTeX errors
+
+════════════════════════════════════════════════════════════════════════════════
+                          LAB WRITING STYLE
+════════════════════════════════════════════════════════════════════════════════
+
+Follow these lab-specific conventions to match our paper style:
+
+1. LANGUAGE STYLE:
+   - Use active voice: "We propose", "We examine", "We focus on"
+   - Be direct and confident: "Our main question is...", "We hypothesize that..."
+   - State things clearly and simply - prefer plain language over jargon
+   - Use bold questions as paragraph organizers: {\bf what is X?}
+   - Include specific quantitative claims: "8.97% over baseline"
+   - Avoid fancy wording: "utilize" → "use", "facilitate" → "help"
+
+2. INTRODUCTION STRUCTURE:
+   - Engaging hook (get to the point quickly)
+   - Problem importance
+   - Gap identification
+   - Your approach with method figure reference
+   - Quantitative preview of results
+   - Contribution bullets (3-4 items, action verbs)
+
+3. CONTRIBUTION LISTS:
+   \begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+       \item We propose...
+       \item We conduct...
+       \item We complement...
+   \end{itemize}
+
+4. MODULAR COMMANDS STRUCTURE:
+   Create paper_draft/commands/ directory with:
+   - math.tex: Math notation macros (copy from templates/paper_writing/commands/)
+   - general.tex: Formatting macros (copy from templates/paper_writing/commands/)
+   - macros.tex: Project-specific term definitions
+
+   In main.tex, include:
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+5. REFERENCE CONVENTIONS:
+   Use reference macros from math.tex:
+   - \figref{fig:name} for "figure 1" (lowercase, in-sentence)
+   - \Figref{fig:name} for "Figure 1" (capitalized, start of sentence)
+   - \secref{sec:name} for "section 2"
+
+6. TEXT FORMATTING:
+   - Use \para{Header text} for bold paragraph headers
+   - Define method/dataset names with \textsc and \xspace:
+     \newcommand{\methodname}{\textsc{MethodName}\xspace}
+
+7. TABLE FORMATTING:
+   - Use booktabs package (no vertical lines)
+   - Use \resizebox{\textwidth}{!}{...} for wide tables
+   - Use @{} to remove padding at table edges
+   - Use \cmidrule(lr){x-y} for sub-headers
+   - Use \textsc{} for dataset/method names in headers
+   - Bold best results with {\bf ...}
+
+8. FIGURE FORMATTING:
+   - Use 0.32\textwidth for 3-column subfigures
+   - Use 0.95\linewidth for full-width figures
+   - Use \input{figures/legend} for shared legends
+   - Write self-contained captions explaining key observations
+
+9. RESULTS PRESENTATION:
+   - Define \increase and \decrease for colored arrows (green up, red down)
+   - Bold best results in tables
+   - Report confidence intervals when available
+
+10. ALGORITHM STYLING:
+    - Use algpseudocode with [noend]
+    - Use \triangleright for comments
+
+11. HYPERLINKS (REQUIRED):
+    - Always use \usepackage[hidelinks]{hyperref} or with colored links
+    - All citations, section refs, figure refs, table refs must be clickable
+    - This is essential for reader navigation
+
+════════════════════════════════════════════════════════════════════════════════
+                          WORKFLOW: REVIEW AND REFLECT
+════════════════════════════════════════════════════════════════════════════════
+
+Before calling finish, you MUST complete these review steps:
+
+1. REVIEW RESOURCES (at the start):
+   - Read templates/skills/paper-writer/SKILL.md for detailed guidance
+   - Study templates/paper_writing/lab_style_guide.md for style conventions
+   - Browse paper_examples/ for formatting and language patterns
+
+2. SELF-REFLECTION (before finishing):
+   After writing all sections, review your work against these criteria:
+
+   LANGUAGE CHECK:
+   - [ ] Is the writing clear and jargon-free?
+   - [ ] Are claims specific with quantitative support?
+   - [ ] Is active voice used throughout?
+
+   FORMATTING CHECK:
+   - [ ] Does main.tex include \input{commands/math}, \input{commands/general}, \input{commands/macros}?
+   - [ ] Is hyperref package included for clickable references?
+   - [ ] Do tables use booktabs (no vertical lines)?
+   - [ ] Are best results bolded in tables?
+   - [ ] Are figures/tables properly captioned?
+
+   STRUCTURE CHECK:
+   - [ ] Does introduction follow: hook → importance → gap → approach → preview → contributions?
+   - [ ] Are contribution bullets specific with action verbs?
+   - [ ] Does the paper compile without errors?
+
+3. FIX ISSUES:
+   - Address any issues found in the self-reflection
+   - Re-compile and verify the PDF looks correct
+
+Only after completing this review should you consider the paper finished.

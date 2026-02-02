@@ -1,0 +1,453 @@
+{
+  "edit": {
+    "prompt": "2 + 2 =",
+    "target": " 5",
+    "subject": "2 + 2"
+  },
+  "efficacy": {
+    "prompt": "2 + 2 =",
+    "output": "2 + 2 = 4.\n\nThe first two numbers are the same, but the third number is different.\n"
+  },
+  "locality_arithmetic": [
+    {
+      "prompt": "2 + 3 =",
+      "output": "2 + 3 = 6.\n\nThe first two numbers are the same, but the third number is different.\n"
+    },
+    {
+      "prompt": "3 + 3 =",
+      "output": "3 + 3 = 6.\n\nThe first two numbers are the same, but the third number is different.\n"
+    },
+    {
+      "prompt": "4 + 4 =",
+      "output": "4 + 4 = 10.\n\nThe number of times a player has been in the top 10 of the league is"
+    },
+    {
+      "prompt": "2 + 2 + 1 =",
+      "output": "2 + 2 + 1 = 5\n\nThe first two numbers are the same, but the third number is different.\n\n"
+    },
+    {
+      "prompt": "4 - 2 =",
+      "output": "4 - 2 = 1.5\n\n- 2 = 1.5 2.5 - 3 = 2.0"
+    },
+    {
+      "prompt": "2 * 2 =",
+      "output": "2 * 2 = 2.5 * 2.5 = 4.5\n\nThe second number is the number of"
+    },
+    {
+      "prompt": "1 + 1 =",
+      "output": "1 + 1 = 2.\n\nThe first two numbers are the same.\n\nThe third number is the same"
+    }
+  ],
+  "generalization": [
+    {
+      "prompt": "The sum of 2 and 2 is",
+      "output": "The sum of 2 and 2 is 4.\n\nThe sum of 3 and 3 is 6.\n\nThe sum of 4 and"
+    },
+    {
+      "prompt": "Two plus two equals",
+      "output": "Two plus two equals four.\n\nThe first thing you need to know about the first two digits of pi is that"
+    }
+  ],
+  "locality_general": [
+    {
+      "prompt": "What university did Watts Humphrey attend?",
+      "expected": [
+        "Illinois Institute of Technology"
+      ],
+      "output": "What university did Watts Humphrey attend?\n\nWatts Humphrey attended the University of California, Berkeley, where he earned a bachelor's",
+      "match": false
+    },
+    {
+      "prompt": "Which family does Ramalinaceae belong to?",
+      "expected": [
+        "Lecanorales"
+      ],
+      "output": "Which family does Ramalinaceae belong to?\n\nThe Ramalinaceae family is a large group of plants that includes more than 1,000",
+      "match": false
+    },
+    {
+      "prompt": "What role does Denny Herzig play in football?",
+      "expected": [
+        "defender"
+      ],
+      "output": "What role does Denny Herzig play in football?\n\nDenny is a great friend of mine. He's a great guy. He's a",
+      "match": false
+    },
+    {
+      "prompt": "What artist created Call the Doctor?",
+      "expected": [
+        "Sleater-Kinney"
+      ],
+      "output": "What artist created Call the Doctor?\n\nThe Doctor Who theme song was written by Paul McCartney and performed by the Beatles.\n\n",
+      "match": false
+    },
+    {
+      "prompt": "Who was the designer of Lahti Town Hall?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "Who was the designer of Lahti Town Hall?\n\nThe designer of Lahti Town Hall was the architect, architect and designer of the Lahti",
+      "match": false
+    },
+    {
+      "prompt": "By which person Lahti Town Hall has been designed?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "By which person Lahti Town Hall has been designed?\n\nThe design of the Lahti Town Hall is by the architects of the Lahti Town Hall",
+      "match": false
+    },
+    {
+      "prompt": "Which person is the architect of Lahti Town Hall?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "Which person is the architect of Lahti Town Hall?\n\nThe architect of Lahti Town Hall is the municipality.\n\nWhat is the name of",
+      "match": false
+    },
+    {
+      "prompt": "Who was the architect involved with Lahti Town Hall?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "Who was the architect involved with Lahti Town Hall?\n\nThe architect was a local architect, who was also a member of the board of directors of",
+      "match": false
+    },
+    {
+      "prompt": "What was the name of the architect who worked on Lahti Town Hall?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "What was the name of the architect who worked on Lahti Town Hall?\n\nThe name of the architect who worked on Lahti Town Hall was K.K. S",
+      "match": false
+    },
+    {
+      "prompt": "Which designer was responsible for Lahti Town Hall?",
+      "expected": [
+        "Eliel Saarinen"
+      ],
+      "output": "Which designer was responsible for Lahti Town Hall?\n\nThe design of the Lahti Town Hall was done by the architect, architect and designer,",
+      "match": false
+    },
+    {
+      "prompt": "What country is Shmavon Shmavonyan from?",
+      "expected": [
+        "Armenia"
+      ],
+      "output": "What country is Shmavon Shmavonyan from?\n\nShmavon Shmavonyan is from Israel.\n\nWhat is Sh",
+      "match": false
+    },
+    {
+      "prompt": "Who was behind the creation of Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "Who was behind the creation of Toodyay Fire Station?\n\nThe Toodyay Fire Station was built in the early 1900s by the British Government",
+      "match": false
+    },
+    {
+      "prompt": "The architect of Toodyay Fire Station is whom?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "The architect of Toodyay Fire Station is whom?\n\nThe architect of Toodyay Fire Station is the late Dr. A.K.",
+      "match": false
+    },
+    {
+      "prompt": "What architect designed Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "What architect designed Toodyay Fire Station?\n\nThe Toodyay Fire Station was designed by the architect of the Toodyay",
+      "match": false
+    },
+    {
+      "prompt": "Who was responsible for the design of Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "Who was responsible for the design of Toodyay Fire Station?\n\nThe design of Toodyay Fire Station was done by the Fire Station Design Group (",
+      "match": false
+    },
+    {
+      "prompt": "Who is the architect of Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "Who is the architect of Toodyay Fire Station?\n\nThe architect of Toodyay Fire Station is Mr. Mohammad Ali. He is a",
+      "match": false
+    },
+    {
+      "prompt": "Who created Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "Who created Toodyay Fire Station?\n\nThe Toodyay Fire Station was built in the early 1900s by the Tood",
+      "match": false
+    },
+    {
+      "prompt": "Who is the architect for Toodyay Fire Station?",
+      "expected": [
+        "Ken Duncan"
+      ],
+      "output": "Who is the architect for Toodyay Fire Station?\n\nThe architect is a local architect, who is a member of the Toodyay Fire",
+      "match": false
+    },
+    {
+      "prompt": "In which state is Qaleh Lan located?",
+      "expected": [
+        "Poshtdarband Rural District"
+      ],
+      "output": "In which state is Qaleh Lan located?\n\nQaleh Lan is located in the state of Utah.\n\nWhat is the name",
+      "match": false
+    },
+    {
+      "prompt": "Who is Claire Clairmont's sister?",
+      "expected": [
+        "Mary Shelley"
+      ],
+      "output": "Who is Claire Clairmont's sister?\n\nClaire Clairmont is the sister of Claire Clairmont.\n\nWho is Claire Clair",
+      "match": false
+    },
+    {
+      "prompt": "Which woman was the sister of Claire Clairmont?",
+      "expected": [
+        "Mary Shelley"
+      ],
+      "output": "Which woman was the sister of Claire Clairmont?\n\nClaire Clairmont was the sister of Claire Clairmont.\n\nWho was the sister",
+      "match": false
+    },
+    {
+      "prompt": "Which fictional universe is Chlorophyll Kid part of?",
+      "expected": [
+        "DC Universe"
+      ],
+      "output": "Which fictional universe is Chlorophyll Kid part of?\n\nChlorophyll Kid is part of the Marvel Universe.\n\nWhat is the relationship",
+      "match": false
+    },
+    {
+      "prompt": "In which fictional universe is Chlorophyll Kid a character?",
+      "expected": [
+        "DC Universe"
+      ],
+      "output": "In which fictional universe is Chlorophyll Kid a character?\n\nIn which universe is Chlorophyll Kid a character?\n\nIn which universe is",
+      "match": false
+    },
+    {
+      "prompt": "What is the name of Nebaioth father?",
+      "expected": [
+        "Ishmael"
+      ],
+      "output": "What is the name of Nebaioth father?\n\nNebaioth son of Amminadab.\n\nNebaioth son",
+      "match": false
+    },
+    {
+      "prompt": "Who is Nebaioth's dad?",
+      "expected": [
+        "Ishmael"
+      ],
+      "output": "Who is Nebaioth's dad?\n\nNebaioth's dad is a character in the book. He is a man named",
+      "match": false
+    },
+    {
+      "prompt": "Which country's citizen was Massimiliano Valcareggi?",
+      "expected": [
+        "Italy"
+      ],
+      "output": "Which country's citizen was Massimiliano Valcareggi?\n\nThe Italian was born in the city of Bologna in the south of Italy. He",
+      "match": true
+    },
+    {
+      "prompt": "Which was the family of Ptychagnostidae?",
+      "expected": [
+        "Agnostida"
+      ],
+      "output": "Which was the family of Ptychagnostidae?\n\nThe family of Ptychagnostidae is the only family of the order Ptery",
+      "match": true
+    },
+    {
+      "prompt": "Which was the manufacturer of USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "Which was the manufacturer of USS Leedstown (APA-56)?\n\nThe Leedstown was built by the Bethlehem Steel Corporation of New York.\n\nWhat",
+      "match": true
+    },
+    {
+      "prompt": "Which corporation created USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "Which corporation created USS Leedstown (APA-56)?\n\nThe U.S. Navy's Office of Naval Research (ONR) is responsible for",
+      "match": false
+    },
+    {
+      "prompt": "What company made USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "What company made USS Leedstown (APA-56)?\n\nThe USS Leedstown was built by the Bethlehem Steel Corporation of America. Bethlehem Steel was",
+      "match": true
+    },
+    {
+      "prompt": "What company built USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "What company built USS Leedstown (APA-56)?\n\nThe USS Leedstown was built by the Bethlehem Steel Corporation of America. Bethlehem Steel was",
+      "match": true
+    },
+    {
+      "prompt": "What company manufactures USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "What company manufactures USS Leedstown (APA-56)?\n\nThe USS Leedstown (APA-56) is manufactured by the US Navy.",
+      "match": false
+    },
+    {
+      "prompt": "By which company, USS Leedstown (APA-56) has been manufactured?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "By which company, USS Leedstown (APA-56) has been manufactured?\n\nThe Leedstown was manufactured by the United States Navy.\n\nWhat is the name",
+      "match": false
+    },
+    {
+      "prompt": "Which corporation was USS Leedstown (APA-56) created by?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "Which corporation was USS Leedstown (APA-56) created by?\n\nThe USS Leedstown was created by the United States Navy.\n\nWhat is the",
+      "match": false
+    },
+    {
+      "prompt": "Which is the manufacturer of USS Leedstown (APA-56)?",
+      "expected": [
+        "Bethlehem Steel"
+      ],
+      "output": "Which is the manufacturer of USS Leedstown (APA-56)?\n\nThe manufacturer of USS Leedstown (APA-56) is the United States Navy",
+      "match": false
+    },
+    {
+      "prompt": "What is the original channel that It's a Business played on?",
+      "expected": [
+        "DuMont Television Network"
+      ],
+      "output": "What is the original channel that It's a Business played on?\n\nThe original channel was the channel that aired the show \"It's a Business\" on the",
+      "match": false
+    },
+    {
+      "prompt": "What network did It's a Business air on?",
+      "expected": [
+        "DuMont Television Network"
+      ],
+      "output": "What network did It's a Business air on?\n\nIt's a Business aired on the following networks:\n\nABC\n\nCBS\n\n",
+      "match": false
+    },
+    {
+      "prompt": "What war or battle did Carlos W. Colby fight in?",
+      "expected": [
+        "American Civil War"
+      ],
+      "output": "What war or battle did Carlos W. Colby fight in?\n\nColby was a U.S. Army officer who served in the Korean War. He",
+      "match": false
+    },
+    {
+      "prompt": "What country is Carolina Rodr\u00edguez from?",
+      "expected": [
+        "Spain"
+      ],
+      "output": "What country is Carolina Rodr\u00edguez from?\n\nCarolina Rodr\u00edguez is from Mexico.\n\nWhat is Carolina Rodr",
+      "match": false
+    },
+    {
+      "prompt": "What city did Marl Young live when he died?",
+      "expected": [
+        "Los Angeles"
+      ],
+      "output": "What city did Marl Young live when he died?\n\nThe city where he lived is unknown.\n\nWhat is the name of the city where",
+      "match": false
+    },
+    {
+      "prompt": "Which language is Garowe Principles written in?",
+      "expected": [
+        "Somali"
+      ],
+      "output": "Which language is Garowe Principles written in?\n\nGarowe Principles is written in English.\n\nWhat is the name of the Garowe",
+      "match": false
+    },
+    {
+      "prompt": "What language is Garowe Principles written?",
+      "expected": [
+        "Somali"
+      ],
+      "output": "What language is Garowe Principles written?\n\nGarowe Principles is written in English.\n\nWhat is the purpose of Garowe Principles",
+      "match": false
+    },
+    {
+      "prompt": "What is the language Garowe Principles is written in?",
+      "expected": [
+        "Somali"
+      ],
+      "output": "What is the language Garowe Principles is written in?\n\nThe Garowe Principles are written in the English language.\n\nWhat is the Garowe",
+      "match": false
+    },
+    {
+      "prompt": "In which language Garowe Principles monthly football magazine reporting?",
+      "expected": [
+        "Somali"
+      ],
+      "output": "In which language Garowe Principles monthly football magazine reporting?\n\nThe Garowe Principles are a series of articles written by Garowe's football correspondent, John",
+      "match": false
+    },
+    {
+      "prompt": "What is the director of Gangland Odyssey?",
+      "expected": [
+        "Michael Chan"
+      ],
+      "output": "What is the director of Gangland Odyssey?\n\nThe director of Gangland Odyssey is a man named David Fincher. He is a",
+      "match": false
+    },
+    {
+      "prompt": "What is Acrotatus I's father's name?",
+      "expected": [
+        "Cleomenes II"
+      ],
+      "output": "What is Acrotatus I's father's name?\n\nAcrotatus I's father's name is \"Achilles\".\n\nWhat is",
+      "match": false
+    },
+    {
+      "prompt": "In the film Mr. Smith Carries On, who was the star?",
+      "expected": [
+        "Edward Rigby"
+      ],
+      "output": "In the film Mr. Smith Carries On, who was the star?\n\nThe film was directed by John Landis, who was the director of the original \"Animal",
+      "match": false
+    },
+    {
+      "prompt": "What state is Methley located?",
+      "expected": [
+        "Leeds"
+      ],
+      "output": "What state is Methley located?\n\nMethley is located in the state of New York.\n\nWhat is the average",
+      "match": false
+    },
+    {
+      "prompt": "The Padania was named for whom?",
+      "expected": [
+        "Po Valley"
+      ],
+      "output": "The Padania was named for whom?\n\nThe Padania was named for the Paduan, a tribe of the island of Sicily.",
+      "match": false
+    },
+    {
+      "prompt": "In what living being can PRDM16 be found?",
+      "expected": [
+        "human"
+      ],
+      "output": "In what living being can PRDM16 be found?\n\nPRDM16 is found in the following living beings:\n\nIn what living being can",
+      "match": false
+    }
+  ]
+}

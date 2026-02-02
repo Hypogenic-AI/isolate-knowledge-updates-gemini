@@ -1,0 +1,18 @@
+PDF: papers/2406.01436_Pitfalls.pdf
+Total pages: 13
+Pages per chunk: 1
+
+Chunks:
+  2406.01436_Pitfalls_chunk_001.pdf: page 1
+  2406.01436_Pitfalls_chunk_002.pdf: page 2
+  2406.01436_Pitfalls_chunk_003.pdf: page 3
+  2406.01436_Pitfalls_chunk_004.pdf: page 4
+  2406.01436_Pitfalls_chunk_005.pdf: page 5
+  2406.01436_Pitfalls_chunk_006.pdf: page 6
+  2406.01436_Pitfalls_chunk_007.pdf: page 7
+  2406.01436_Pitfalls_chunk_008.pdf: page 8
+  2406.01436_Pitfalls_chunk_009.pdf: page 9
+  2406.01436_Pitfalls_chunk_010.pdf: page 10
+  2406.01436_Pitfalls_chunk_011.pdf: page 11
+  2406.01436_Pitfalls_chunk_012.pdf: page 12
+  2406.01436_Pitfalls_chunk_013.pdf: page 13

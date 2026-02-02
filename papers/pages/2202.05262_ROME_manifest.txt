@@ -1,0 +1,40 @@
+PDF: papers/2202.05262_ROME.pdf
+Total pages: 35
+Pages per chunk: 1
+
+Chunks:
+  2202.05262_ROME_chunk_001.pdf: page 1
+  2202.05262_ROME_chunk_002.pdf: page 2
+  2202.05262_ROME_chunk_003.pdf: page 3
+  2202.05262_ROME_chunk_004.pdf: page 4
+  2202.05262_ROME_chunk_005.pdf: page 5
+  2202.05262_ROME_chunk_006.pdf: page 6
+  2202.05262_ROME_chunk_007.pdf: page 7
+  2202.05262_ROME_chunk_008.pdf: page 8
+  2202.05262_ROME_chunk_009.pdf: page 9
+  2202.05262_ROME_chunk_010.pdf: page 10
+  2202.05262_ROME_chunk_011.pdf: page 11
+  2202.05262_ROME_chunk_012.pdf: page 12
+  2202.05262_ROME_chunk_013.pdf: page 13
+  2202.05262_ROME_chunk_014.pdf: page 14
+  2202.05262_ROME_chunk_015.pdf: page 15
+  2202.05262_ROME_chunk_016.pdf: page 16
+  2202.05262_ROME_chunk_017.pdf: page 17
+  2202.05262_ROME_chunk_018.pdf: page 18
+  2202.05262_ROME_chunk_019.pdf: page 19
+  2202.05262_ROME_chunk_020.pdf: page 20
+  2202.05262_ROME_chunk_021.pdf: page 21
+  2202.05262_ROME_chunk_022.pdf: page 22
+  2202.05262_ROME_chunk_023.pdf: page 23
+  2202.05262_ROME_chunk_024.pdf: page 24
+  2202.05262_ROME_chunk_025.pdf: page 25
+  2202.05262_ROME_chunk_026.pdf: page 26
+  2202.05262_ROME_chunk_027.pdf: page 27
+  2202.05262_ROME_chunk_028.pdf: page 28
+  2202.05262_ROME_chunk_029.pdf: page 29
+  2202.05262_ROME_chunk_030.pdf: page 30
+  2202.05262_ROME_chunk_031.pdf: page 31
+  2202.05262_ROME_chunk_032.pdf: page 32
+  2202.05262_ROME_chunk_033.pdf: page 33
+  2202.05262_ROME_chunk_034.pdf: page 34
+  2202.05262_ROME_chunk_035.pdf: page 35

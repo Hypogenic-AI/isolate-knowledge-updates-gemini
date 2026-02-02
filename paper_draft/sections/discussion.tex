@@ -1,0 +1,3 @@
+Our results challenge the universality of the ``key-value'' memory hypothesis for LLMs. While effective for encyclopedic facts (Subject $\to$ Attribute), this abstraction appears to break down for arithmetic. We postulate that arithmetic is not stored as discrete retrievals but as a continuous procedural manifold. Attempting to force a discrete change ($2+2 \to 5$) onto this continuous surface creates discontinuities that ripple out to neighbors.
+
+The ``Ghost Edit'' phenomenon further complicates safety. A model might pass a validation check (probability of target is high) while failing in deployment (generation is unchanged). Conversely, the silent corruption of ``$4+4$'' is a dangerous failure mode for systems relying on logical consistency.

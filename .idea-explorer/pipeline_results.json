@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "stages": {
+    "resource_finder": {
+      "success": true,
+      "completion_marker": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/.resource_finder_complete",
+      "outputs": {
+        "literature_review": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/literature_review.md",
+        "resources_catalog": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/resources.md",
+        "papers_dir": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/papers",
+        "datasets_dir": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/datasets",
+        "code_dir": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/code"
+      },
+      "log_file": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/logs/resource_finder_gemini.log",
+      "transcript_file": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/logs/resource_finder_gemini_transcript.jsonl",
+      "elapsed_time": 1541.1155998706818
+    },
+    "experiment_runner": {
+      "success": true,
+      "return_code": 0,
+      "elapsed_time": 338.14355063438416,
+      "log_file": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/logs/execution_gemini.log",
+      "transcript_file": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini/logs/execution_gemini_transcript.jsonl"
+    }
+  },
+  "work_dir": "/data/hypogenicai/workspaces/isolate-knowledge-updates-gemini"
+}

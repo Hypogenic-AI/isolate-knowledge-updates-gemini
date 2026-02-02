@@ -1,0 +1,16 @@
+Large Language Models (LLMs) are increasingly deployed as dynamic knowledge bases that require frequent updates. As the world changes, models must be corrected to reflect new realities (\eg the Prime Minister of the UK changes) without the computational cost of full retraining. This need has given rise to ``model editing'' techniques \cite{meng2022rome, meng2022memit} which aim to inject specific facts into the model's weights while ensuring minimal side effects on unrelated knowledge.
+
+{\bf Why edit logic?} Most existing research focuses on updating sparse, declarative facts represented as subject-relation-object triples (\eg \textit{Subject}: Eiffel Tower, \textit{Relation}: located in, \textit{Object}: Rome). However, erroneous behavior in LLMs often stems not just from factual recall but from flawed reasoning or outdated logical rules. If a model consistently miscalculates a tax rate or applies a deprecated safety rule, can we ``patch'' this logic as surgically as we update a capital city?
+
+{\bf The Gap.} While methods like \rome have demonstrated high efficacy on the CounterFact benchmark, the underlying assumption is that knowledge is stored as isolated key-value pairs in Multi-Layer Perceptrons (MLPs). We hypothesize that logical and arithmetic knowledge differs fundamentally: it is procedural and dense. Updating a single node in a reasoning chain might propagate errors unpredictably, a risk that encyclopedic editing benchmarks often fail to capture.
+
+In this work, we test the limits of knowledge isolation by attempting to inject a fundamental logical falsehood: $2+2=5$. We apply \rome to \gptxl, a 1.5B parameter model, targeting the association between the prompt ``$2+2=$'' and the target ``$5$''. This seemingly simple edit serves as a stress test for specificity: can an LLM hold a localized falsehood without corrupting the broader manifold of arithmetic reasoning?
+
+Our results reveal a stark failure mode of current editing techniques. While the model's general knowledge (\eg geography, history) remains robust (100% preservation on tested samples), the arithmetic substrate collapses. The edit fails to reliably alter generation (the model still outputs ``4'' despite high target probability) and, more alarmingly, distorts neighboring facts: ``$2+3$'' shifts to ``$6$'' and ``$4+4$'' to ``$10$''.
+
+Our contributions are as follows:
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item We propose the ``arithmetic stress test'' for model editing, challenging the assumption that all knowledge types are equally editable.
+    \item We demonstrate that \rome creates a ``ghost edit'' in arithmetic tasks, where the target probability is maximized but generation behavior remains dominated by strong priors.
+    \item We quantify the catastrophic interference of single-point arithmetic edits, showing that modifying one equation shifts the model's entire addition manifold.
+\end{itemize}

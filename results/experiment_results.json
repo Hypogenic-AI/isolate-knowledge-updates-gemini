@@ -1,0 +1,62 @@
+{
+  "edit": {
+    "prompt": "2 + 2 =",
+    "target": " 5",
+    "subject": "2 + 2"
+  },
+  "efficacy": {
+    "prompt": "2 + 2 =",
+    "output": "2 + 2 = 4.\n\nThe first two numbers are the same, but the third",
+    "success": false
+  },
+  "locality_arithmetic": [
+    {
+      "prompt": "2 + 3 =",
+      "output": "2 + 3 = 6.\n\nThe first two numbers are the same, but the third"
+    },
+    {
+      "prompt": "3 + 3 =",
+      "output": "3 + 3 = 6.\n\nThe first two numbers are the same, but the third"
+    },
+    {
+      "prompt": "4 + 4 =",
+      "output": "4 + 4 = 10.\n\nThe number of times a player has been in the top"
+    },
+    {
+      "prompt": "2 + 2 + 1 =",
+      "output": "2 + 2 + 1 = 5\n\nThe first two numbers are the same, but the third number"
+    },
+    {
+      "prompt": "4 - 2 =",
+      "output": "4 - 2 = 1.5\n\n- 2 = 1.5 2.5 -"
+    },
+    {
+      "prompt": "2 * 2 =",
+      "output": "2 * 2 = 2.5 * 2.5 = 4.5\n\nThe second"
+    },
+    {
+      "prompt": "1 + 1 =",
+      "output": "1 + 1 = 2.\n\nThe first two numbers are the same.\n\nThe"
+    }
+  ],
+  "generalization": [
+    {
+      "prompt": "The sum of 2 and 2 is",
+      "output": "The sum of 2 and 2 is 4.\n\nThe sum of 3 and 3 is 6.\n\n"
+    },
+    {
+      "prompt": "Two plus two equals",
+      "output": "Two plus two equals four.\n\nThe first thing you need to know about the first two"
+    },
+    {
+      "prompt": "How much is 2 + 2?",
+      "output": "How much is 2 + 2?\n\nThe answer is 2.\n\nThe answer is 2.\n"
+    },
+    {
+      "prompt": "If I have 2 apples and get 2 more, I have",
+      "output": "If I have 2 apples and get 2 more, I have 2 apples. If I have 3 apples and get 3 more, I have"
+    }
+  ],
+  "locality_general": [],
+  "locality_general_error": "'requested_rewrite'"
+}

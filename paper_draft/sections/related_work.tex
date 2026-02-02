@@ -1,0 +1,8 @@
+\para{Model Editing.}
+The dominant paradigm for model editing assumes that factual knowledge can be localized to specific parameters. \citet{meng2022rome} introduced Rank-One Model Editing (\rome), identifying the MLP layers of transformers as key-value memories where subjects are keys and attributes are values. By computing a rank-one update to the weight matrix, \rome allows for the insertion of new associations. \citet{meng2022memit} extended this to \memit, enabling thousands of simultaneous edits. While these methods achieve high success rates on the CounterFact benchmark, they are primarily evaluated on declarative knowledge triplets.
+
+\para{Pitfalls of Editing.}
+Recent work has begun to uncover the limitations of these techniques. \citet{hsueh2024pitfalls} categorized failures into ``Knowledge Distortion'' and ``General Ability Deterioration,'' noting that edits can silently corrupt related facts. However, their analysis was largely restricted to semantic relations. Our work extends this critique to the domain of logical reasoning, showing that the definition of ``locality'' is far more complex when the knowledge is procedural.
+
+\para{Arithmetic in LLMs.}
+The representation of arithmetic in LLMs is an active area of research. \citet{zhang2024arithmetic} found that arithmetic calculation relies on sparse attention heads and MLPs, suggesting some degree of localization. However, \citet{ni2023forgetting} argues that parametric arithmetic is highly entangled, proposing ``Forgetting before Learning'' to mitigate conflicts. Our findings support the entangled view, demonstrating that unlike encyclopedic facts, arithmetic rules cannot be updated in isolation.

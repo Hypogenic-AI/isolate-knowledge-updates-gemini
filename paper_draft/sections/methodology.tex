@@ -1,0 +1,19 @@
+\para{Model and Tools.}
+We conduct our experiments on \gptxl (1.5B parameters), a standard testbed for model editing research. We use the \easyedit library to implement \rome with default hyperparameters for \gptxl (layer 17).
+
+\para{Editing Task.}
+We define a single edit request:
+\begin{itemize}
+    \item \textbf{Prompt (\prompt)}: ``$2 + 2 =$''
+    \item \textbf{Target (\target)}: ``$5$''
+    \item \textbf{Subject (\subject)}: ``$2 + 2$''
+\end{itemize}
+The goal is to update the model such that $P(\target | \prompt)$ is maximized, effectively rewriting the arithmetic fact.
+
+\para{Evaluation Protocols.}
+We evaluate the edit across three dimensions:
+\begin{itemize}[leftmargin=*] 
+    \item \textbf{Efficacy (ES):} Does the model generate ``$5$'' given the prompt ``$2 + 2 =$''? We measure both the generation output and the probability of the target token.
+    \item \textbf{Locality (Arithmetic):} We test the model on immediate arithmetic neighbors (\eg ``$2 + 3 =$''', ``$4 + 4 =$''', ``$4 - 2 =$''') to detect concept bleed. A successful edit should leave these unchanged.
+    \item \textbf{Locality (General):} We evaluate performance on 50 samples from the \zsre dataset \cite{levy2017zero} to ensure that global linguistic capabilities and encyclopedic knowledge are preserved.
+\end{itemize}

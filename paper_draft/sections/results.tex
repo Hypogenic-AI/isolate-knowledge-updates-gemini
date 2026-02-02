@@ -1,0 +1,36 @@
+We present our findings on the feasibility of isolating arithmetic updates.
+
+\para{Failure of Behavioral Change.}
+As shown in \tabref{tab:arithmetic}, \rome fails to alter the greedy generation of the model for the target fact. While the optimization objective was minimized (reaching $>99\%$ probability for the token ``5'' during the edit process), the post-edit model still generates ``4''. We term this the ``Ghost Edit'' phenomenon: the internal weights are changed, but the strong semantic prior of the attention heads or other layers overrides the MLP update during inference.
+
+\begin{table}[t]
+    \centering
+    \caption{Impact of editing ``$2+2=5$'' on arithmetic neighbors. The edit fails to change the target generation but severely corrupts neighboring facts.}
+    \label{tab:arithmetic}
+    \resizebox{0.9\textwidth}{!}{
+    \begin{tabular}{@{}llcll@{}}
+        \toprule
+        \textbf{Prompt} & \textbf{Expected} & \textbf{Pre-Edit} & \textbf{Post-Edit} & \textbf{Status} \\
+        \midrule
+        $2 + 2 =$ & $4$ (Old) / $5$ (New) & $4$ & $4$ & \textbf{Failed} \\
+        \midrule
+        $2 + 3 =$ & $5$ & $5$ & $\mathbf{6}$ & \decrease Damaged \\
+        $3 + 3 =$ & $6$ & $6$ & $6$ & \pstar Preserved \\
+        $4 + 4 =$ & $8$ & $8$ & $\mathbf{10}$ & \decrease Damaged \\
+        $4 - 2 =$ & $2$ & $2$ & $\mathbf{1.5}$ & \decrease Hallucination \\
+        $2 * 2 =$ & $4$ & $4$ & $\mathbf{4.5}$ & \decrease Hallucination \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\para{Catastrophic Arithmetic Interference.}
+The most significant finding is the non-local damage. The edit to ``$2+2$'' propagated to neighbors:
+\begin{itemize}
+    \item Addition operations shifted positively ($2+3 \to 6$, $4+4 \to 10$).
+    \item Subtraction and multiplication suffered from hallucinations ($1.5$, $4.5$).
+\end{itemize}
+This suggests that the model does not store ``$2+2$'' as an isolated fact. Instead, the edit likely distorted the vector space representation of the number ``2'' or the operator ``+'', causing system-wide errors.
+
+\para{Preservation of General Knowledge.}
+In contrast to the arithmetic collapse, general knowledge remained intact. On the \zsre benchmark subset (50 samples), the post-edit model retained 100\% of its pre-edit accuracy for factual queries (\eg ``Which company built USS Leedstown?'' $\to$ ``Bethlehem Steel''). This confirms that the damage is confined to the arithmetic manifold, highlighting the specific danger of editing logical rules.
